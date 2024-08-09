@@ -64,7 +64,7 @@ public class ExtendedCountingSort extends AbstractSorting<Integer> {
 				menor = array[i];
 			}
 		}
-		return menor-1;
+		return menor-1;
 	}
 
 }
