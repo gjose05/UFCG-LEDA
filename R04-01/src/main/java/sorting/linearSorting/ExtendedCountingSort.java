@@ -40,7 +40,7 @@ public class ExtendedCountingSort extends AbstractSorting<Integer> {
 						arrayCopia[i]--;
 					}
 					else{
-						array[contadorPosicoes] = i + menor  ;
+						array[contadorPosicoes] = i;
 						contadorPosicoes++;
 						arrayCopia[i]--;
 					}
