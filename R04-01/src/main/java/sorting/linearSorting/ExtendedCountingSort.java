@@ -10,6 +10,7 @@ import sorting.AbstractSorting;
  */
 public class ExtendedCountingSort extends AbstractSorting<Integer> {
 
+	
 	@Override
 	public void sort(Integer[] array, int leftIndex, int rightIndex) {
 		if ( leftIndex < rightIndex){
@@ -23,18 +24,23 @@ public class ExtendedCountingSort extends AbstractSorting<Integer> {
 				arrayCopia = new int[maior];
 			}
 			for (int i = leftIndex; i <= rightIndex; i++){
-				if(array[i]<0){
+				if (menor < 0){
 					arrayCopia[array[i]-menor-1]++;
 				}
 				else{
-				arrayCopia[array[i]]++;
+					arrayCopia[array[i]]++;
 				}
 			}
 			int contadorPosicoes = 0;
 			for(int i = 0; i <= arrayCopia.length-1; i++){
 				while(arrayCopia[i] != 0){
-					if (arrayCopia[i] != 0){
-						array[contadorPosicoes] = i;
+					if (arrayCopia[i] + menor < 0){
+						array[contadorPosicoes] = i + menor + 1 ;
+						contadorPosicoes++;
+						arrayCopia[i]--;
+					}
+					else{
+						array[contadorPosicoes] = i + menor  ;
 						contadorPosicoes++;
 						arrayCopia[i]--;
 					}
