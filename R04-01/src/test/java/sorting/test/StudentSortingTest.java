@@ -1,6 +1,5 @@
 package sorting.test;
 
-import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
@@ -24,8 +23,8 @@ public class StudentSortingTest {
 	public void setUp() {
 		populaVetorTamanhoPar(new Integer[] { 30, 28, 7, 29, 11, 26, 4, 22, 23,
 				31 });
-		populaVetorTamanhoImpar(new Integer[] { 6, 41, 32, 7, 26, 4, 37, 49,
-				11, 18, 36 });
+		populaVetorTamanhoImpar(new Integer[] {-2, 4, 3, -3, 2, 4, 3, 4,
+				1, 1, 3 });
 		populaVetorRepetido(new Integer[] { 4, 9, 3, 4, 0, 5, 1, 4 });
 		populaVetorIgual(new Integer[] { 6, 6, 6, 6, 6, 6 });
 
