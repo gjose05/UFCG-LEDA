@@ -60,18 +60,18 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 	 */
 	public T orderStatistics(T[] array, int k){	
 		if (k <= array.length-1){
-			int contador = array.length - k;
-			while (contador != k){
-				int maior = contador;
-				for (int i = 1 + contador ; i<array.length-1;i++){
-					if(array[i].compareTo(array[maior])>=0){
-						maior = i;
+			int contador = array.length-1 - k;
+			while (contador > 0){
+				T maior = array[0];
+				for (int i = 1 ; i < array.length; i++){
+					if (array[i].compareTo(maior)>=0){
+						maior = array[i];
 					}
 				}
-				Util.swap(array, maior, contador);
-				contador++;
+				contador--;
+				
 			}
-			return array[contador-1];
+			return array[contador];
 		}
 		else{
 			return null;
