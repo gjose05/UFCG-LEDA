@@ -1,5 +1,8 @@
 package orderStatistic;
 
+import java.util.Arrays;
+
+import util.Util;
 
 /**
  * Uma implementacao da interface KLargest que usa estatisticas de ordem para 
@@ -30,17 +33,18 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 
 	@Override
 	public T[] getKLargest(T[] array, int k) {
-		T[] resp = Arrays.copyOf(array,k);
-		T menorDosMaiores = orderStatistic(array,k);
-		int contador = 0;
-		for (int i = 0; i < array.length.i++){
-			if (array[i].compareTo(menorDosMaiores) == 0 || array[i].compareTo(menorDosMaiores)>0){
-				resp[contador] = array[i];
-				contador++;
+		if (k <= array.length-1){
+			T[] resp = Arrays.copyOf(array,k);
+			for (int i = 0; i < k+1;i++){
+				resp[k-1-i] = orderStatistics(array,array.length-1-i);
 			}
+			return resp;
 		}
-		return resp;
+		else{
+			T[] resp = Arrays.copyOf(array,0);
+			return resp;
 		}
+	}
 	
 
 	/**
@@ -55,19 +59,22 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 	 * @return
 	 */
 	public T orderStatistics(T[] array, int k){	
-		int contador = 0;
-		while (contador !=k){
-			int maior = contador;
-			for (int i = 1 + contador ; i<array.length-1;i++){
-				if(array[i].compareTo(array[maior])>0){
-					maior = i;
+		if (k <= array.length-1){
+			int contador = array.length - k;
+			while (contador != k){
+				int maior = contador;
+				for (int i = 1 + contador ; i<array.length-1;i++){
+					if(array[i].compareTo(array[maior])>=0){
+						maior = i;
+					}
 				}
+				Util.swap(array, maior, contador);
+				contador++;
 			}
-			T temp = array[contador];
-			array[contador] = array[maior];
-			array[maior] = array[contador];
-			contador++;
+			return array[contador-1];
 		}
-		return array[contador];
+		else{
+			return null;
+		}
 	}
 }
