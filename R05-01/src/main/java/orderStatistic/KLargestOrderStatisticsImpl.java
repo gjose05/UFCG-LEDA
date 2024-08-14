@@ -33,17 +33,25 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 
 	@Override
 	public T[] getKLargest(T[] array, int k) {
-		if (k <= array.length-1){
-			T[] resp = Arrays.copyOf(array,k);
-			for (int i = 0; i < k+1;i++){
-				resp[k-1-i] = orderStatistics(array,array.length-1-i);
-			}
-			return resp;
+		if (array == null || k < 1 || k > array.length) {
+            return Arrays.copyOf(array,0); 
+        }
+		T[] resp = Arrays.copyOf(array,k);
+		T menorMaiores;
+		if (k == 1 || k == array.length ){
+			menorMaiores = orderStatistics(array,1);
 		}
 		else{
-			T[] resp = Arrays.copyOf(array,0);
-			return resp;
+			menorMaiores = orderStatistics(array,array.length-k+1);
 		}
+		int contador = 0;
+		for (int i = 0; i < array.length;i++){
+			if(array[i].compareTo(menorMaiores) >= 0 && contador < k){
+				resp[contador] = array[i];
+				contador++;
+			}
+		}
+		return resp;
 	}
 	
 
@@ -59,19 +67,19 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 	 * @return
 	 */
 	public T orderStatistics(T[] array, int k){	
-		if (k <= array.length-1){
-			int contador = array.length-1 - k;
-			while (contador > 0){
-				T maior = array[0];
-				for (int i = 1 ; i < array.length; i++){
-					if (array[i].compareTo(maior)>=0){
-						maior = array[i];
+		if (k <= array.length){
+			int contador = 0;
+			while (contador != k) {
+				int menor = contador;
+				for (int i = 1+contador; i < array.length;i++){
+					if (array[i].compareTo(array[menor])<=0){
+						menor = i;
 					}
 				}
-				contador--;
-				
+				Util.swap(array,contador,menor);	
+				contador++;
 			}
-			return array[contador];
+			return array[contador-1];
 		}
 		else{
 			return null;
