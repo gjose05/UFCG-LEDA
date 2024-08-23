@@ -30,11 +30,9 @@ public class CircularQueue<T> implements Queue<T> {
 	@Override
 	public T dequeue() throws QueueUnderflowException {
 		if (!isEmpty()){
-			T result  = array[tail];
-			for (int i = 0; i < tail;i++){
-				array[i] = array[i+1];
-			}
-			tail--;
+			T result  = array[head];
+			head++;
+			elements--;
 			return result;
 		}
 		else{
@@ -44,26 +42,29 @@ public class CircularQueue<T> implements Queue<T> {
 
 	@Override
 	public T head() {
+		T resp = null;
 		if (!isEmpty()){
-			return array[head];
+			resp = array[head];
 		}
-		return null;
+		return resp;
 	}
 
 	@Override
 	public boolean isEmpty() {
+		boolean resp = false;
 		if(head == -1){
-			return true;
+			resp = true;
 		}
-		return false;
+		return resp;
 	}
 
 	@Override
 	public boolean isFull() {
-		if (elements >= array.length-1){
-			return true;
+		boolean resp = false;
+		if (elements >= array.length){
+			resp =  true;
 		}
-		return false;
+		return resp;
 	}
 
 }

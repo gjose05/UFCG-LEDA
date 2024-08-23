@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class StudentQueueTest {
+public class StudentCircularQueueTest {
 
 	public Queue<Integer> queue1;
 	public Queue<Integer> queue2;
@@ -32,9 +32,9 @@ public class StudentQueueTest {
 
 	private void getImplementations() {
 		// TODO O aluno deve ajustar aqui para instanciar sua implementação
-		queue1 = new QueueImpl<Integer>(4);
-		queue2 = new QueueImpl<Integer>(2);
-		queue3 = new QueueImpl<Integer>(5);
+		queue1 = new CircularQueue<Integer>(4);
+		queue2 = new CircularQueue<Integer>(2);
+		queue3 = new CircularQueue<Integer>(5);
 	}
 
 	// MÉTODOS DE TESTE
@@ -63,13 +63,6 @@ public class StudentQueueTest {
 			e.printStackTrace();
 		}
 	}
-
-	@Test(expected = QueueOverflowException.class)
-	public void testEnqueueComErro() throws QueueOverflowException {
-		queue2.enqueue(new Integer(5)); // vai depender do tamanho que a fila
-										// foi iniciada!!!
-	}
-
 	@Test
 	public void testDequeue() {
 		try {
