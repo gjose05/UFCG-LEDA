@@ -12,38 +12,84 @@ public class RecursiveSingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		return data == null;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isEmpty()){
+			return 0;
+		}
+		else{
+			return 1 + next.size();
+		}
 	}
 
 	@Override
 	public T search(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isEmpty()){
+			return null;
+		}
+		if (data.equals(element)){
+			return data;
+		}
+		else{
+			return next.search(element);
+		}
 	}
 
 	@Override
 	public void insert(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isEmpty()){
+			data = element;
+			next = new RecursiveSingleLinkedListImpl<T>();
+		}
+		else{
+			if (next.getData() == null){
+				next.setData(element);
+				RecursiveSingleLinkedListImpl<T> novoNext = new RecursiveSingleLinkedListImpl<T>();
+				next.setNext(novoNext);
+			}
+			else{
+				next.insert(element);
+			}
+		}
 	}
 
 	@Override
 	public void remove(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		if (isEmpty() || element == null){
+			throw new IllegalArgumentException();
+		}
+		else{
+			if (data.equals(element)){
+				setData(next.getData());
+				setNext(next.getNext());
+			}
+			else{
+				next.remove(element);
+			}
+		}
 	}
 
 	@Override
 	public T[] toArray() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		T[] array = (T[]) new Object[this.size()];
+		if (isEmpty()){
+			return array;
+		}
+		array[0] = data;
+		encheArray(this.next, array, 1);
+		return array;
+	}
+	private void encheArray(RecursiveSingleLinkedListImpl<T> no, T[] array, int indice){
+		if (no.getData() == null){
+			return;
+		}
+		else{
+			array[indice] = no.getData();
+			encheArray(no.getNext(), array, indice+1);
+		}
 	}
 
 	public T getData() {

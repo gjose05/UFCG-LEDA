@@ -61,4 +61,9 @@ public class SingleLinkedListNode<T> {
 		this.next = next;
 	}
 
+	public void setPrevious(DoubleLinkedListNode<T> previous) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'setPrevious'");
+	}
+
 }

@@ -1,47 +1,54 @@
 package adt.stack;
 
-import adt.linkedList.DoubleLinkedList;
 import adt.linkedList.DoubleLinkedListImpl;
 
 public class StackDoubleLinkedListImpl<T> implements Stack<T> {
 
-	protected DoubleLinkedList<T> top;
-	protected int size;
+    private DoubleLinkedListImpl<T> list; 
+    private int maxSize;  
+    private int currentSize;  
 
-	public StackDoubleLinkedListImpl(int size) {
-		this.size = size;
-		this.top = new DoubleLinkedListImpl<T>();
-	}
+    public StackDoubleLinkedListImpl(int maxSize) {
+        this.maxSize = maxSize;
+        this.currentSize = 0;
+        this.list = new DoubleLinkedListImpl<>();
+    }
 
-	@Override
-	public void push(T element) throws StackOverflowException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
+    @Override
+    public void push(T element) throws StackOverflowException {
+        if (isFull()) {
+            throw new StackOverflowException();
+        }
+        list.insert(element); 
+        currentSize++;
+    }
 
-	}
+    @Override
+    public T pop() throws StackUnderflowException {
+        if (isEmpty()) {
+            throw new StackUnderflowException();
+        }
+        T element = list.getLast().getData();
+        list.removeLast(); 
+        currentSize--;
+        return element;
+    }
 
-	@Override
-	public T pop() throws StackUnderflowException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
-	}
+    @Override
+    public T top() {
+        if (isEmpty()) {
+            return null; 
+        }
+        return list.getLast().getData(); 
+    }
 
-	@Override
-	public T top() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
-	}
+    @Override
+    public boolean isEmpty() {
+        return currentSize == 0;
+    }
 
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
-	}
-
-	@Override
-	public boolean isFull() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented!");
-	}
-
+    @Override
+    public boolean isFull() {
+        return currentSize >= maxSize;
+    }
 }

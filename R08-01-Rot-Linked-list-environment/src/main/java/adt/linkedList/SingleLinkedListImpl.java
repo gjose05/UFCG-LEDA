@@ -1,5 +1,7 @@
 package adt.linkedList;
 
+import java.lang.reflect.Array;
+
 public class SingleLinkedListImpl<T> implements LinkedList<T> {
 
 	protected SingleLinkedListNode<T> head;
@@ -13,11 +15,10 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 		return head.isNIL();
 	}
 
-	@Override
 	public int size() {
 		int contador = 0;
 		SingleLinkedListNode<T> no = this.head;
-		while (!(no.isNIL())){
+		while (no != null && !no.isNIL()) {
 			contador++;
 			no = no.getNext();
 		}
@@ -69,16 +70,18 @@ public class SingleLinkedListImpl<T> implements LinkedList<T> {
 
 	@Override
 	public T[] toArray() {
-		T[] array = (T[]) new Object[this.size()];
-		SingleLinkedListNode<T> no = this.head;
-		int contador = 0;
-		while (!(no.isNIL())){
-			array[contador] = no.getData();
-			contador++;
-			no = no.getNext();
-		}
-		return array;
-	}
+    T[] array = (T[]) new Object[this.size()];
+    SingleLinkedListNode<T> node = this.head;
+    int index = 0;
+
+    while (node != null && !node.isNIL()) {
+        array[index++] = node.getData();
+        node = node.getNext();
+    }
+
+    return array;
+}
+
 
 	public SingleLinkedListNode<T> getHead() {
 		return head;
