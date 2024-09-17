@@ -28,21 +28,28 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 	@Override
 	public BSTNode<T> search(T element) {
 		BSTNode<T> resp = null;
-		if (isEmpty()){
+		if (isEmpty() || element == null){
 			return resp;
 		}
 		else{
-			BSTNode<T> auxRoot = this.root;
-			while (!auxRoot.equals(null)){
-				if (auxRoot.getData().equals(element)){
-					resp = (BSTNode<T>) auxRoot.getData();
-				}
-				if (auxRoot.getData().compareTo(element) < 0){
-					auxRoot = (BSTNode<T>) auxRoot.getLeft();
-				}
-				else{
-					auxRoot = (BSTNode<T>) auxRoot.getRight();
-				}
+			resp = searchRecursive(this.root, element);
+		}
+		return resp;
+	}
+	private BSTNode<T> searchRecursive(BSTNode<T> node, T element){
+		BSTNode<T> resp;
+		if (node.equals(null)){
+			resp = null;
+		}
+		else{
+			if (node.getData().equals(element)){
+				resp = node;
+			}
+			if(node.getData().compareTo(element) < 0){
+				resp = searchRecursive((BSTNode<T>) node.getLeft(),element);
+			}
+			else{
+				resp = searchRecursive((BSTNode<T>) node.getRight(),element);
 			}
 		}
 		return resp;
@@ -50,26 +57,39 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	@Override
 	public void insert(T element) {
-		if (isEmpty()){
+		if (isEmpty()||element == null){
 			this.root.setData(element);
 		}
 		else{
-			BSTNode<T> auxRoot = this.root;
-			while (!auxRoot.equals(null)){
-				if(auxRoot.getData().compareTo(element) < 0){
-					if (auxRoot.getLeft().equals(null)){
-						auxRoot.setLeft(new BTNode<T>(element,new BSTNode<>(),new BSTNode<>(),auxRoot));
-						break;
-					}
-					auxRoot = (BSTNode<T>) auxRoot.getLeft();
-				}
-				else{
-					if (auxRoot.getRight().equals(null)){
-						auxRoot.setRight(new BTNode<T>(element,new BSTNode<>(),new BSTNode<>(),auxRoot));
-						break;
-					}
-					auxRoot = (BSTNode<T>) auxRoot.getRight();
-				}
+			insertRecursive(root, element);
+		}
+	}
+	private void insertRecursive(BSTNode<T> node, T element){
+		
+		if (node.getData().compareTo(element) < 0){
+			if (node.getLeft() == null){
+				BSTNode<T> novoNode = new BSTNode<T>();
+				novoNode.setLeft(new BSTNode<>());
+				novoNode.setRight(new BSTNode<>());
+				novoNode.setParent(node);
+				novoNode.setData(element);
+				node.setLeft(novoNode);
+			}
+			else{
+				insertRecursive((BSTNode<T>) node.getLeft(), element);
+			}
+		}
+		else{
+			if (node.getRight() == null){
+				BSTNode<T> novoNode = new BSTNode<T>();
+				novoNode.setLeft(new BSTNode<>());
+				novoNode.setRight(new BSTNode<>());
+				novoNode.setParent(node);
+				novoNode.setData(element);
+				node.setRight(novoNode);
+			}
+			else{
+				insertRecursive((BSTNode<T>) node.getRight(), element);
 			}
 		}
 	}
