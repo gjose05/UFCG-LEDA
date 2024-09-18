@@ -27,7 +27,7 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	@Override
 	public BSTNode<T> search(T element) {
-		BSTNode<T> resp = null;
+		BSTNode<T> resp = new BSTNode<T>();
 		if (isEmpty() || element == null){
 			return resp;
 		}
@@ -38,14 +38,14 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 	}
 	private BSTNode<T> searchRecursive(BSTNode<T> node, T element){
 		BSTNode<T> resp;
-		if (node.equals(null)){
-			resp = null;
+		if (node.isEmpty()){
+			return new BSTNode<T>();
 		}
 		else{
 			if (node.getData().equals(element)){
 				resp = node;
 			}
-			if(node.getData().compareTo(element) < 0){
+			else if(node.getData().compareTo(element) > 0){
 				resp = searchRecursive((BSTNode<T>) node.getLeft(),element);
 			}
 			else{
@@ -57,7 +57,10 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	@Override
 	public void insert(T element) {
-		if (isEmpty()||element == null){
+		if (isEmpty()){
+			this.root.setParent(new BSTNode<T>());
+			this.root.setLeft(new BSTNode<T>());
+			this.root.setRight(new BSTNode<T>());
 			this.root.setData(element);
 		}
 		else{
@@ -66,8 +69,8 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 	}
 	private void insertRecursive(BSTNode<T> node, T element){
 		
-		if (node.getData().compareTo(element) < 0){
-			if (node.getLeft() == null){
+		if (node.getData().compareTo(element) > 0){
+			if (node.getLeft().isEmpty()){
 				BSTNode<T> novoNode = new BSTNode<T>();
 				novoNode.setLeft(new BSTNode<>());
 				novoNode.setRight(new BSTNode<>());
@@ -80,7 +83,7 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 			}
 		}
 		else{
-			if (node.getRight() == null){
+			if (node.getRight().isEmpty()){
 				BSTNode<T> novoNode = new BSTNode<T>();
 				novoNode.setLeft(new BSTNode<>());
 				novoNode.setRight(new BSTNode<>());
@@ -96,26 +99,114 @@ public class BSTImpl<T extends Comparable<T>> implements BST<T> {
 
 	@Override
 	public BSTNode<T> maximum() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		BSTNode<T> resp = new BSTNode<T>();
+		if (!isEmpty()){
+			resp = maximumRecursive((BSTNode<T>)this.root);
+		}
+		return resp;
+	}
+	private BSTNode<T> maximumRecursive(BSTNode<T> node){
+		BSTNode<T> resp = new BSTNode<T>();
+		if (!node.isEmpty()){
+			if (node.getRight().isEmpty()){
+				resp = node;
+			}
+			else{
+				return maximumRecursive((BSTNode<T>)node.getRight());
+			}
+		}
+		return resp;
 	}
 
 	@Override
 	public BSTNode<T> minimum() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		BSTNode<T> resp = new BSTNode<T>();
+		if (!isEmpty()){
+			resp = minimumRecursive((BSTNode<T>)this.root);
+		}
+		return resp;
+	}
+	private BSTNode<T> minimumRecursive(BSTNode<T> node){
+		BSTNode<T> resp = new BSTNode<T>();
+		if (!node.isEmpty()){
+			if (node.getLeft().isEmpty()){
+				resp = node;
+			}
+			else{
+				return minimumRecursive((BSTNode<T>)node.getLeft());
+			}
+		}
+		return resp;
 	}
 
 	@Override
 	public BSTNode<T> sucessor(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		BSTNode<T> resp = null;
+		if (!isEmpty() || !element.equals(null)){
+			resp = sucessorRecursive(search(element), element);
+		}
+		return resp;
+	}
+	private BSTNode<T> sucessorRecursive(BSTNode<T> node, T element){
+		BSTNode<T> resp = null;
+		if (!node.isEmpty()){
+			if (node.getRight().isEmpty()){
+				if (!node.getParent().isEmpty()){
+					resp = maiorAcima((BSTNode<T>)node.getParent(), element);
+				}
+			}
+			else{
+				resp = minimumRecursive((BSTNode<T>)node.getRight());
+			}
+		}
+		return resp;
+	}
+	private BSTNode<T> maiorAcima(BSTNode<T> node, T element){
+		BSTNode<T> resp = null;
+		if (node.getData().compareTo(element) < 0){
+			if (!node.getParent().isEmpty()){
+				return maiorAcima((BSTNode<T>) node.getParent(), element);
+			}
+		}
+		else{
+			resp = node;
+		}
+		return resp;
 	}
 
 	@Override
 	public BSTNode<T> predecessor(T element) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
+		BSTNode<T> resp = null;
+		if (!isEmpty() || !element.equals(null)){
+			resp = predecessorRecursive(search(element), element);
+		}
+		return resp;
+	}
+	private BSTNode<T> predecessorRecursive(BSTNode<T> node, T element){
+		BSTNode<T> resp = null;
+		if (!node.isEmpty()){
+			if (node.getLeft().isEmpty()){
+				if (!node.getParent().isEmpty()){
+					resp = menorAcima((BSTNode<T>)node.getParent(), element);
+				}
+			}
+			else{
+				resp = maximumRecursive((BSTNode<T>)node.getLeft());
+			}
+		}
+		return resp;
+	}
+	private BSTNode<T> menorAcima(BSTNode<T> node, T element){
+		BSTNode<T> resp = null;
+		if (node.getData().compareTo(element) > 0){
+			if (!node.getParent().isEmpty()){
+				return menorAcima((BSTNode<T>) node.getParent(), element);
+			}
+		}
+		else{
+			resp = node;
+		}
+		return resp;
 	}
 
 	@Override
