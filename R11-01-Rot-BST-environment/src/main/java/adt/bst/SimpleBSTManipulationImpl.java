@@ -52,15 +52,17 @@ public class SimpleBSTManipulationImpl<T extends Comparable<T>> implements Simpl
 		return orderStatisticsRecursive(tree,minimo,k);
 	}
 	private T orderStatisticsRecursive(BST<T> arvore, BSTNode<T> menor, int k){
-		if(k==0){
+		if(k<=1){
 			if (!menor.isEmpty()){
 				return menor.getData();
+			}
+			else{
+				return null;
 			}
 		}
 		arvore.remove(menor.getData());
 		BSTNode<T> novoMenor = arvore.minimum();
-		orderStatisticsRecursive(arvore, novoMenor, k-1);
-		return null;
+		return orderStatisticsRecursive(arvore, novoMenor, k-1);
 	}
 
 }
