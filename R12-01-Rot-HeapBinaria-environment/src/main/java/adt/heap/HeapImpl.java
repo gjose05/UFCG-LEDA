@@ -85,18 +85,18 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 	 */
 	private void heapify(int position) {
 		int leftPosition = left(position);
-		int rightPosition = right(position);
-		int auxPosicao = position;
-		if (this.comparator.compare(this.heap[auxPosicao], this.heap[leftPosition]) < 0){
-			auxPosicao = leftPosition;
-		}
-		if (this.comparator.compare(this.heap[auxPosicao], this.heap[rightPosition]) < 0){
-			auxPosicao = rightPosition;
-		}
-		if (auxPosicao != position){
-			Util.swap(heap, auxPosicao, position);
-			heapify(auxPosicao);
-		}
+        int rightPosition = right(position);
+        int smallest = position;
+        if (leftPosition <= index && comparator.compare(heap[leftPosition], heap[smallest]) < 0) {
+            smallest = leftPosition;
+        }
+        if (rightPosition <= index && comparator.compare(heap[rightPosition], heap[smallest]) < 0) {
+            smallest = rightPosition;
+        }
+        if (smallest != position) {
+            Util.swap(heap, smallest, position);
+            heapify(smallest);
+        }
 	}
 
 	@Override
@@ -117,22 +117,23 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public void buildHeap(T[] array) {
-		this.heap = array;
+		this.heap = array.clone();
 		this.index = array.length-1;
-		for (int i = 0; i < index ; i++){
+		for (int i = parent(index); i >= 0; i--){
 			heapify(i);
 		}
 	}
 
 	@Override
 	public T extractRootElement() {
+		T resp = null;
 		if (!isEmpty()){
-			T resp = this.heap[0];
+			resp = this.heap[0];
 			Util.swap(this.heap, 0, index);
+			index--;
 			heapify(0);
-			return resp;
 		}
-		return null;
+		return resp;
 	}
 
 	@Override
@@ -163,10 +164,7 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 
 	@Override
 	public int size() {
-		if(index != -1){
-			return index+1;
-		}
-		return 0;
+		return index+1;
 	}
 
 	public Comparator<T> getComparator() {
