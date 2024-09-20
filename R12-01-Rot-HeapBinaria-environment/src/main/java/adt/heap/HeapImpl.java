@@ -87,10 +87,10 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 		int leftPosition = left(position);
         int rightPosition = right(position);
         int smallest = position;
-        if (leftPosition <= index && comparator.compare(heap[leftPosition], heap[smallest]) < 0) {
+        if (leftPosition <= index && comparator.compare(heap[leftPosition], heap[smallest]) > 0) {
             smallest = leftPosition;
         }
-        if (rightPosition <= index && comparator.compare(heap[rightPosition], heap[smallest]) < 0) {
+        if (rightPosition <= index && comparator.compare(heap[rightPosition], heap[smallest]) > 0) {
             smallest = rightPosition;
         }
         if (smallest != position) {
@@ -128,8 +128,9 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 	public T extractRootElement() {
 		T resp = null;
 		if (!isEmpty()){
-			resp = this.heap[0];
+			resp = rootElement();
 			Util.swap(this.heap, 0, index);
+			this.heap[index] = null;
 			index--;
 			heapify(0);
 		}
@@ -145,10 +146,11 @@ public class HeapImpl<T extends Comparable<T>> implements Heap<T> {
 		return resp;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T[] heapsort(T[] array) {
-		T[] arrayResp = (T[]) new Comparator[size()];
 		buildHeap(array);
+		T[] arrayResp = (T[]) new Comparable[this.size()];
 		if (this.comparator.compare(array[0], array[index])>0){
 			for (int i = index; i >= 0; i--){
 				arrayResp[i] = extractRootElement();
