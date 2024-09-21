@@ -12,11 +12,14 @@ public class FloorCeilHeapImpl extends HeapImpl<Integer> implements FloorCeilHea
 
 	@Override
 	public Integer floor(Integer[] array, double numero) {
-		HeapImpl<Integer> heap = new HeapImpl<>(comparator);
-		for(int i = 0; i < array.length;i++){
-			heap.insert(array[i]);
-		}
-		return floorRecursivo(heap,heap.rootElement(),numero);
+		if (array.length != 0 && array != null){
+			HeapImpl<Integer> heap = new HeapImpl<>(comparator);
+			for(int i = 0; i < array.length;i++){
+				heap.insert(array[i]);
+			}
+			return floorRecursivo(heap,heap.rootElement(),numero);
+			}
+		return null;
 	}
 	private Integer floorRecursivo(HeapImpl<Integer> heap,Integer numeroProximo, double numero){
 		heap.extractRootElement();
@@ -42,11 +45,14 @@ public class FloorCeilHeapImpl extends HeapImpl<Integer> implements FloorCeilHea
 
 	@Override
 	public Integer ceil(Integer[] array, double numero) {
-		HeapImpl<Integer> heap = new HeapImpl<>(comparator);
-		for(int i = 0; i < array.length;i++){
-			heap.insert(array[i]);
+		if( array.length != 0 && array != null){
+			HeapImpl<Integer> heap = new HeapImpl<>(comparator);
+			for(int i = 0; i < array.length;i++){
+				heap.insert(array[i]);
+			}
+			return ceilRecursivo(heap,heap.rootElement(),numero);
 		}
-		return ceilRecursivo(heap,heap.rootElement(),numero);
+		return null;
 	}
 	private Integer ceilRecursivo(HeapImpl<Integer> heap,Integer numeroProximo, double numero){
 		heap.extractRootElement();
